@@ -7,7 +7,7 @@ module.exports = {
 
   output: {
     path: path.resolve.resolve(__dirname, 'dist'),
-    filename: 'host.bundle.js',
+    filename: 'ngx-mfe-host.bundle.js',
     publicPath: "http://localhost:8080/"
   },
 

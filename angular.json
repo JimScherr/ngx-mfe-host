@@ -1,13 +1,13 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "defaultProject": "host",
+  "defaultProject": "ngx-mfe-host",
   "version": 1,
   "newProjectRoot": "projects",
   "cli": {
     "packageManager": "yarn"
   },
   "projects": {
-    "host": {
+    "ngx-mfe-host": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -73,11 +73,11 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "host:build"
+            "browserTarget": "ngx-mfe-host:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "host:build:production"
+              "browserTarget": "ngx-mfe-host:build:production"
             }
           }
         },
@@ -125,7 +125,7 @@
           },
           "configurations": {
             "production": {
-              "devServerTarget": "host:serve:production"
+              "devServerTarget": "ngx-mfe-host:serve:production"
             }
           }
         }
