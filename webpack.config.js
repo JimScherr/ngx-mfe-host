@@ -1,24 +1,33 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const path = require('path');
+const helpers = require('./helpers');
+
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 module.exports = {
-  entry: './src/main.ts',
+  entry: {
+    main: './src/main.ts',
+    vendor: './src/vendor.ts'
+  },
 
   output: {
-    path: path.resolve.resolve(__dirname, 'dist'),
-    filename: 'ngx-mfe-host.bundle.js',
-    publicPath: "http://localhost:8080/"
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: "/"
   },
+
+  devtool: 'inline-source-map',
+  mode: 'development',
 
   resolve: {
     extensions: [
-      ".ts", ".js", ".json"
+      ".ts", ".js", ".json", ".css"
     ]
   },
 
   devServer: {
-    contentBase: path.join(__dirname, "public"),
+    contentBase: path.join(__dirname, "./dist"),
     port: 8080,
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -32,37 +41,47 @@ module.exports = {
     rules: [
       {
         test: /\.m?js/,
-        type: "javascript/auto",
+        type: 'javascript/auto',
         resolve: {
           fullySpecified: false,
         },
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          }
+        ],
       },
       {
-        test: /\.(ts|tsx|js|jsx)$/,
+        test: /\.ts$/,
+        use: [
+          {
+            loader: 'ts-loader'
+          }
+        ],
         exclude: /node_modules/,
-        use: {
-          loader: "ts-loader",
-        },
       },
     ],
   },
 
   plugins: [
+    new ContextReplacementPlugin(
+      /angular(\\|\/)core(\\|\/)@angular/,
+      helpers.root('./src'), // location of your src
+      {} // a map of your routes
+    ),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
     }),
     new ModuleFederationPlugin({
-      shared: {
-        "@angular/core": { singleton: true, strictVersion: true },
-        "@angular/common": { singleton: true, strictVersion: true },
-        "@angular/router": { singleton: true, strictVersion: true },
-        "@angular/material": { singleton: true, strictVersion: true },
-      },
-
       remotes: {
         // TBD
       }
