@@ -1,9 +1,8 @@
 # ngx-mfe-host
-This is the 'host' module (a.k.a. container) for the various remote modules. All modules for this
-project use the prefix 'ngx-mfe-'. 
+Ngx MicroFrontEnd 'Host' Module
+This is a micro-frontend remote module for hosting gathers.
 
-This project built from template found at (https://github.com/JimScherr/ngx-module-federation)
-
+This project built from template found at [Angular Module Federation](https://github.com/JimScherr/ngx-module-federation).
 
 ## Development server
 
